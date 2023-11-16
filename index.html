@@ -29,6 +29,8 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
   </head>
 
   <body>
@@ -976,24 +978,26 @@
           <section class="mapbox" data-mapbox>
             <figure>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30153.69764979335!2d72.92413760357216!3d19.142186195852894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b87f18a9d735%3A0x268d0b00f8f4a62!2sBhandup%20East%2C%20Mumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1699990115294!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.67292831256!2d72.71637308774599!3d19.082502004627383!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700073849040!5m2!1sen!2sin"
                 width="400"
                 height="300"
                 loading="lazy"
               ></iframe>
+              
             </figure>
           </section>
 
           <section class="contact-form">
             <h3 class="h3 form-title">Contact Form</h3>
 
-            <form action="#" class="form" data-form>
+            <form action="#" class="form" id="contactform" data-form>
               <div class="input-wrapper">
                 <input
                   type="text"
                   name="fullname"
                   class="form-input"
                   placeholder="Full name"
+                  id="name"
                   required
                   data-form-input
                 />
@@ -1003,6 +1007,7 @@
                   name="email"
                   class="form-input"
                   placeholder="Email address"
+                  id="email"
                   required
                   data-form-input
                 />
@@ -1012,11 +1017,12 @@
                 name="message"
                 class="form-input"
                 placeholder="Your Message"
+                id="message"
                 required
                 data-form-input
               ></textarea>
 
-              <button class="form-btn" type="submit" disabled data-form-btn>
+              <button class="form-btn" type="submit" enabled data-form-btn>
                 <ion-icon name="paper-plane"></ion-icon>
                 <span>Send Message</span>
               </button>
@@ -1025,6 +1031,47 @@
         </article>
       </div>
     </main>
+
+    <!-- 
+      Firebase Config 
+    -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyC1s4yDWUlv6vEi64igBzA35L_Vo0aw0lA",
+        authDomain: "portfolio-website-98909.firebaseapp.com",
+        databaseURL: "https://portfolio-website-98909-default-rtdb.firebaseio.com",
+        projectId: "portfolio-website-98909",
+        storageBucket: "portfolio-website-98909.appspot.com",
+        messagingSenderId: "54876960455",
+        appId: "1:54876960455:web:51808edeed32df4d8630e2"
+      };
+    
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const ref = database.ref("messages")
+const contactform = document.getElementById('contactform');
+
+form.addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const name = document.getElementById('name').value
+  const email = document.getElementById('email').value
+  const message = document.getElementById('message').value
+
+  ref.push({
+    name:name,
+    email:email,
+    message:message
+  })
+  form.reset();
+})
+    </script>
 
     <!--
     - custom js link
@@ -1042,5 +1089,8 @@
       nomodule
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
+    
   </body>
 </html>
+
+
